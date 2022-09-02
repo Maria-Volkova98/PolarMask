@@ -142,7 +142,6 @@ int ROIAlignForwardLaucher(const at::Tensor features, const at::Tensor rois,
                 sample_num, channels, height, width, pooled_height,
                 pooled_width, top_data);
       }));
-  THCudaCheck(cudaGetLastError());
   return 1;
 }
 
@@ -289,6 +288,5 @@ int ROIAlignBackwardLaucher(const at::Tensor top_grad, const at::Tensor rois,
                 channels, height, width, pooled_height, pooled_width,
                 bottom_diff);
       }));
-  THCudaCheck(cudaGetLastError());
   return 1;
 }
