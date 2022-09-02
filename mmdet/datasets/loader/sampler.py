@@ -3,7 +3,7 @@ import math
 
 import numpy as np
 import torch
-from mmcv.runner.utils import get_dist_info
+#from mmcv.runner.utils import get_dist_info
 from torch.utils.data import DistributedSampler as _DistributedSampler
 from torch.utils.data import Sampler
 
@@ -88,6 +88,22 @@ class DistributedGroupSampler(Sampler):
             distributed training.
         rank (optional): Rank of the current process within num_replicas.
     """
+#Добавленная функция
+    def get_dist_info():
+        if torch.__version__ < '1.0':
+            initialized = dist._initialized
+        else:
+            if dist.is_available():
+                initialized = dist.is_initialized()
+            else:
+                initialized = False
+        if initialized:
+            rank = dist.get_rank()
+            world_size = dist.get_world_size()
+        else:
+            rank = 0
+            world_size = 1
+        return rank, world_size
 
     def __init__(self,
                  dataset,
